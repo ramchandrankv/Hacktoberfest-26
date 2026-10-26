@@ -1,8 +1,3 @@
-"""
-VerdantPulse - Python Local Edge Server
-Combines Google Gemma 2 (google/gemma-2-2b-it) and Prior Labs TabPFN (tabpfn)
-Exposes local REST API endpoints for zero-cloud, zero-latency inference on trails.
-"""
 
 import os
 import time
@@ -35,8 +30,8 @@ if app:
 
 # --- TabPFN Regressor Setup ---
 class TabularPhenologyRequest(BaseModel):
-    train_matrix: List[List[float]]  # [DayOfYear, Elevation, Lat, Temp, Rain, Canopy, FoliageScore, MudRisk]
-    query_features: List[float]      # [DayOfYear, Elevation, Lat, Temp, Rain, Canopy]
+    train_matrix: List[List[float]]  
+    query_features: List[float]      
 
 class FieldCardRequest(BaseModel):
     trail_name: str
@@ -47,8 +42,7 @@ class FieldCardRequest(BaseModel):
     footing_status: str
     dominant_species: List[str]
     tactile_hints: dict
-
-# Optional Lazy Loaders for local PyTorch / Transformers / TabPFN models
+    
 tabpfn_model = None
 gemma_pipeline = None
 
@@ -134,9 +128,7 @@ def predict_phenology(req: TabularPhenologyRequest):
 
 @app.post("/api/generate_field_card")
 def generate_field_card(req: FieldCardRequest):
-    """
-    Generate 60-second Pocket Field Card using local Google Gemma 2.
-    """
+   
     start_time = time.time()
     pipe = get_gemma_pipeline()
 
